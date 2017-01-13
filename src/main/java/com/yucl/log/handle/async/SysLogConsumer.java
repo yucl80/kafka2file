@@ -18,7 +18,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 
 import kafka.consumer.ConsumerConfig;
@@ -26,13 +25,13 @@ import kafka.consumer.ConsumerIterator;
 import kafka.consumer.KafkaStream;
 import kafka.javaapi.consumer.ConsumerConnector;
 
-public class AccLogConsumer extends Thread {
+public class SysLogConsumer extends Thread {
 	private final ConsumerConnector consumer;
 	private final String topic;
 	private static ConcurrentHashMap<String, ChannelWrapper> channels = new ConcurrentHashMap<>();
-	private Logger logger = LoggerFactory.getLogger(AccLogConsumer.class);
+	private Logger logger = LoggerFactory.getLogger(SysLogConsumer.class);
 
-	public AccLogConsumer(String topic) {
+	public SysLogConsumer(String topic) {
 		consumer = kafka.consumer.Consumer.createJavaConsumerConnector(createConsumerConfig());
 		this.topic = topic;
 	}
@@ -68,18 +67,8 @@ public class AccLogConsumer extends Thread {
 				logger.debug(msg);
 			}
 			try {
-				DocumentContext jsonContext = JsonPath.parse(msg);
-				String rawPath = jsonContext.read("$.path",String.class);				
-				String filePath = new StringBuilder().append(rootDir)
-						.append("/mwbase/applogs/rtlog/")
-						.append(jsonContext.read( "$.stack",String.class)).append("-")
-				        .append(jsonContext.read( "$.service",String.class)).append("/")				        
-				        .append(rawPath.substring(rawPath.lastIndexOf('/')+1))
-				        .append(".")
-				        .append(jsonContext.read( "$.index",String.class))
-				        .toString();		
-				Path path = FileSystems.getDefault().getPath("",filePath);
-				String rawMsg = jsonContext.read("$.message");
+				Path path = FileSystems.getDefault().getPath("", rootDir + JsonPath.read(msg, "$.path"));
+				String rawMsg = JsonPath.read(msg, "$.message");
 				ChannelWrapper channelWrapper = channels.get(path.toString());
 				if (channelWrapper == null) {
 					synchronized (channels) {

@@ -33,6 +33,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 
 import kafka.consumer.ConsumerConfig;
@@ -83,9 +84,16 @@ public class AppLogConsumer extends Thread {
 				logger.debug(msg);
 			}
 			try {
-				String rawMsg = JsonPath.read(msg, "$.message");
+				DocumentContext jsonContext = JsonPath.parse(msg);
+				String rawMsg = jsonContext.read("$.message", String.class);
 				String date = rawMsg.substring(0, 10);
-				Path path = fileSystem.getPath("", rootDir + JsonPath.read(msg, "$.path") + "." + date);
+				String rawPath = jsonContext.read("$.path", String.class);
+				String filePath = new StringBuilder().append(rootDir).append("/mwbase/applogs/rtlog/")
+						.append(jsonContext.read("$.stack", String.class)).append("-")
+						.append(jsonContext.read("$.service", String.class)).append("/").append(date).append(".")
+						.append(rawPath.substring(rawPath.lastIndexOf('/') + 1)).append(".")
+						.append((String) jsonContext.read("$.index", String.class)).toString();
+				Path path = fileSystem.getPath("", filePath);
 				ChannelWrapper channelWrapper = channels.get(path.toString());
 
 				if (channelWrapper == null) {

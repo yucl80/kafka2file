@@ -87,9 +87,10 @@ public class ContainerLogConsumer extends Thread {
 				String filePath = new StringBuilder().append(rootDir)
 						.append("/mwbase/applogs/rtlog/")
 						.append((String)JsonPath.read(msg, "$.stack")).append("-")
-				        .append((String)JsonPath.read(msg, "$.service")).append("-")
-				        .append((String)JsonPath.read(msg, "$.index"))
-				        .append("/console.out").toString();				
+				        .append((String)JsonPath.read(msg, "$.service")).append("/")
+				        .append("console.out")
+				        .append(".").append((String)JsonPath.read(msg, "$.index"))
+				        .toString();				
 				Path path = fileSystem.getPath("", filePath);
 				ChannelWrapper channelWrapper = channels.get(path.toString());
 
