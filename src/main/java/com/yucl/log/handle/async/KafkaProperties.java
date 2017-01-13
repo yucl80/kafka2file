@@ -20,7 +20,7 @@ public interface KafkaProperties
 {
  // final static String zkConnect = "127.0.0.1:2181";
   final static String zkConnect = "192.168.21.12:2181,192.168.21.13:2181,192.168.21.14:2181";
-  final static  String groupId = "kafka2file5";
+  final static  String groupId = "kafka2file";
   final static String topic = "topic1";
   final static String kafkaServerURL = "localhost";
   final static int kafkaServerPort = 9092;
