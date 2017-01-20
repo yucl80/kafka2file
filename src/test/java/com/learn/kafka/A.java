@@ -12,6 +12,12 @@ import java.util.regex.Pattern;
 public class A {
 
 	public static void main(String[] args) {
+		String str="/logs/36eb6cd0f852de67dd13102e261e807a28f3456c735c522babbc9b54c5515179/_data/RN/common-all.log";
+	
+		System.out.println(str.lastIndexOf('/', -1));
+		System.out.println(str.substring(str.lastIndexOf('/')+1));
+		
+		
 		for(Path path :FileSystems.getDefault().getRootDirectories()) {
 			System.out.println(path.toString());
 		}

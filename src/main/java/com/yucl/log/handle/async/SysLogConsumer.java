@@ -29,7 +29,7 @@ public class SysLogConsumer extends Thread {
 	private final ConsumerConnector consumer;
 	private final String topic;
 	private static ConcurrentHashMap<String, ChannelWrapper> channels = new ConcurrentHashMap<>();
-	private Logger logger = LoggerFactory.getLogger(SysLogConsumer.class);
+	private static final Logger logger = LoggerFactory.getLogger(SysLogConsumer.class);
 
 	public SysLogConsumer(String topic) {
 		consumer = kafka.consumer.Consumer.createJavaConsumerConnector(createConsumerConfig());

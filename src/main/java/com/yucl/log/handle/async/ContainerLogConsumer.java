@@ -44,7 +44,7 @@ public class ContainerLogConsumer extends Thread {
 	private final ConsumerConnector consumer;
 	private final String topic;
 	private static ConcurrentHashMap<String, ChannelWrapper> channels = new ConcurrentHashMap<>();
-	private Logger logger = LoggerFactory.getLogger(ContainerLogConsumer.class);
+	private static final Logger logger = LoggerFactory.getLogger(ContainerLogConsumer.class);
 
 	public ContainerLogConsumer(String topic) {
 		consumer = kafka.consumer.Consumer.createJavaConsumerConnector(createConsumerConfig());

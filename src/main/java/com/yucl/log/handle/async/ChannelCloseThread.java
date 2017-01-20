@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 public class ChannelCloseThread extends Thread {
 
 	private ConcurrentHashMap<String, ChannelWrapper> channels;
-	private Logger logger = LoggerFactory.getLogger(ChannelCloseThread.class);
+	private static final Logger logger = LoggerFactory.getLogger(ChannelCloseThread.class);
 
 	public ChannelCloseThread(ConcurrentHashMap<String, ChannelWrapper> channels) {
 		this.channels = channels;

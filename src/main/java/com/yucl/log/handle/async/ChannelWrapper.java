@@ -1,8 +1,10 @@
 package com.yucl.log.handle.async;
 
+import java.io.IOException;
+import java.nio.channels.AsynchronousChannel;
 import java.nio.channels.AsynchronousFileChannel;
 
-public class ChannelWrapper {
+public class ChannelWrapper implements AsynchronousChannel {
 	private long lastWriteTime;
 	private long pos;
 	private AsynchronousFileChannel fileChannel;
@@ -41,5 +43,22 @@ public class ChannelWrapper {
 	public void setPos(long pos) {
 		this.pos = pos;
 	}
+
+
+	@Override
+	public boolean isOpen() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public void close() throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	
 
 }
