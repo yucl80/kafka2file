@@ -20,6 +20,7 @@ public class ChannelCloseThread extends Thread {
 				logger.info("close all channel :"+channels.size());
 				for (Entry<String, ChannelWrapper> entry : channels.entrySet()) {					
 					try {
+						entry.getValue().getFileChannel().force(false);
 						entry.getValue().getFileChannel().close();						
 					} catch (IOException e) {
 						logger.error(e.getMessage(),e);
@@ -40,6 +41,7 @@ public class ChannelCloseThread extends Thread {
 					if (System.currentTimeMillis() - entry.getValue().getLastWriteTime() > 300000) {
 						logger.info("close channel "+ entry.getKey());
 						channels.remove(entry.getKey());
+						entry.getValue().getFileChannel().force(false);
 						entry.getValue().getFileChannel().close();						
 					}
 				}
