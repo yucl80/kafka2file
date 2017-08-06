@@ -31,8 +31,8 @@ public class AppLogConsumer extends LogConsumer {
             date = rawMsg.substring(0, 10);
 		}
 		String rawPath = msgJsonContext.read("$.path", String.class);
-		String filePath = new StringBuilder().append(rootDir).append("/mwbase/applogs/rtlog/")
-				.append(msgJsonContext.read("$.stack", String.class)).append("-")
+		String filePath = new StringBuilder().append(rootDir).append("/applogs/rtlog/")
+				.append(msgJsonContext.read("$.stack", String.class)).append("/")
 				.append(msgJsonContext.read("$.service", String.class)).append("/").append(date).append(".")
 				.append(rawPath.substring(rawPath.lastIndexOf('/') + 1)).append(".")
 				.append((String) msgJsonContext.read("$.index", String.class)).toString();
