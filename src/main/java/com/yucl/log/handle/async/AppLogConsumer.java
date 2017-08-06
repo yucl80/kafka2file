@@ -22,7 +22,6 @@ public class AppLogConsumer extends LogConsumer {
 	public String buildFilePathFromMsg(DocumentContext msgJsonContext, String rootDir) {
 		String rawMsg = msgJsonContext.read("$.message", String.class);
 		String date;
-
 		if (pattern.matcher(rawMsg).find()){
             String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
             String eventTime = year+"-"+rawMsg.substring(1,6);
