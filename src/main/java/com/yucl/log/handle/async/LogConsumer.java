@@ -1,34 +1,24 @@
 
 package com.yucl.log.handle.async;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.channels.AsynchronousFileChannel;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ThreadPoolExecutor;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
-
 import kafka.consumer.Consumer;
 import kafka.consumer.ConsumerConfig;
 import kafka.consumer.ConsumerIterator;
 import kafka.consumer.KafkaStream;
 import kafka.javaapi.consumer.ConsumerConnector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.AsynchronousFileChannel;
+import java.nio.file.*;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public abstract class LogConsumer extends Thread {
 	private final Logger logger = LoggerFactory.getLogger(getClass());;
@@ -109,16 +99,24 @@ public abstract class LogConsumer extends Thread {
 					}
 				}
 				synchronized (channelWrapper) {
-					byte[] bytes = (rawMsg + "\n").getBytes();
+					byte[] bytes =getBytesToWrite(rawMsg);
 					channelWrapper.getFileChannel().write(ByteBuffer.wrap(bytes), channelWrapper.getPos());
 					channelWrapper.setPos(channelWrapper.getPos() + bytes.length);
 					channelWrapper.setLastWriteTime(System.currentTimeMillis());
 				}
 			} catch (IOException e) {
 				logger.error(msg, e);
+			} catch (InvalidPathException e){
+				logger.error(msg, e);
+			} catch (Throwable t){
+				logger.error(msg, t);
 			}
 
 		}
 
+	}
+
+	public byte[] getBytesToWrite(String rawMsg){
+		return  (rawMsg + "\n").getBytes();
 	}
 }

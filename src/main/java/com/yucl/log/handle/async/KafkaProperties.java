@@ -2,7 +2,7 @@ package com.yucl.log.handle.async;
 
 public interface KafkaProperties
 {
-  final static String zkConnect = "192.168.21.12:2181,192.168.21.13:2181,192.168.21.14:2181";
+  final static String zkConnect = "10.62.14.27:2181,10.62.14.10:2181,10.62.14.28:2181";
   final static  String groupId = "kafka2filedev";
   final static int connectionTimeOut = 100000;
   final static int reconnectInterval = 10000;
