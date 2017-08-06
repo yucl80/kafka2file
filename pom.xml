@@ -4,7 +4,7 @@
 
 	<groupId>com.yucl.learn</groupId>
 	<artifactId>log2file</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>log2file</name>
@@ -58,8 +58,8 @@
 	</dependencies>
 
 	<build>
-		<finalName>asynclog2file</finalName>
-		<pluginManagement>
+		<finalName>log2file</finalName>
+		
 			<plugins>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -98,6 +98,6 @@
 					</executions>
 				</plugin>
 			</plugins>
-		</pluginManagement>
+		
 	</build>
 </project>
