@@ -18,7 +18,7 @@ public class AccLogConsumer extends LogConsumer {
 	@Override
 	public String buildFilePathFromMsg(DocumentContext msgJsonContext, String rootDir) {
 		String rawPath = msgJsonContext.read("$.path", String.class);
-		String filePath = new StringBuilder().append(rootDir).append("/applogs/rtlog/")
+		String filePath = new StringBuilder().append(rootDir).append("/app/logs/")
 				.append(msgJsonContext.read("$.stack", String.class)).append("/")
 				.append(msgJsonContext.read("$.service", String.class)).append("/")
 				.append(rawPath.substring(rawPath.lastIndexOf('/') + 1)).append(".")

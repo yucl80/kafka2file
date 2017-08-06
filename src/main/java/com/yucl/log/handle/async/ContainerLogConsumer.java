@@ -19,8 +19,7 @@ public class ContainerLogConsumer extends LogConsumer {
 
 	@Override
 	public String buildFilePathFromMsg(DocumentContext msgJsonContext, String rootDir) {
-		String filePath = new StringBuilder().append(rootDir)
-				.append("/applogs/rtlog/")
+		String filePath = new StringBuilder().append(rootDir).append("/app/logs/")
 				.append(msgJsonContext.read("$.stack", String.class)).append("/")
 		        .append(msgJsonContext.read("$.service", String.class)).append("/")
 		        .append("console.out")
