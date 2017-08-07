@@ -4,6 +4,8 @@ import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class ContainerLogConsumer extends LogConsumer {
@@ -22,8 +24,10 @@ public class ContainerLogConsumer extends LogConsumer {
 		String filePath = new StringBuilder().append(rootDir).append("/app/logs/")
 				.append(msgJsonContext.read("$.stack", String.class)).append("/")
 		        .append(msgJsonContext.read("$.service", String.class)).append("/")
-		        .append("console.out")
-		        .append(".").append(msgJsonContext.read("$.index", String.class))
+				.append(msgJsonContext.read("$.service", String.class)).append("-")
+				.append(msgJsonContext.read("$.index", String.class)).append(".")
+		        .append("console.out").append(".")
+                .append(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
 		        .toString();
 		return filePath;
 	}
